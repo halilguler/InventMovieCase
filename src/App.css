@@ -1,0 +1,11 @@
+.layout{
+  min-height: 50vh;
+}
+
+.header-min-height{
+  min-height: 7vh;
+}
+
+.footer-min-height{
+  min-height: 7vh;
+}
