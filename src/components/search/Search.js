@@ -9,7 +9,7 @@ import {
   setName,
   setPaginationStarted,
   setType,
-} from "../../features/movies/movieSlice";
+} from "../../features/movies/movieListSlice";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";

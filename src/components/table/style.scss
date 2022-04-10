@@ -1,3 +1,13 @@
-.table-min-height{
-    min-height: 450px;
+.table-min-height {
+  min-height: 450px;
+}
+
+table {
+  height: 62vh;
+  border-collapse: collapse;
+}
+
+tr{
+    height: 15px;
+    line-height: 27px;
 }

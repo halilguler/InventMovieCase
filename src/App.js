@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "./App.css";
-import Footer from "./components/footer/Footer";
+import { Outlet, Route, Routes } from "react-router-dom";
+import "./App.scss";
 import Header from "./components/header/Header";
-import Layout from "./components/layout/Layout";
-import Search from "./components/search/Search";
+import MovieDetail from "./pages/MovieDetail/MovieDetail";
+import MovieList from "./pages/MovieList/MovieList";
 
 function App() {
-  const { movies, loading } = useSelector((state) => state.movies);
-  const [moviesState, setMoviesState] = useState(movies);
-  const dispatch = useDispatch();
-
   return (
-    <div className="d-flex col-12 flex-column w-100 h-100">
-      <div className="header-min-height">
+    <div className="d-flex col-12 flex-column w-100 vh-100">
+      <div className="header-min-height bg-header-color">
         <Header />
       </div>
-      <div className="layout">
-        <Layout />
-      </div>
-      <div className="footer-min-height">
-        <Footer />
+      <div className="main-height bg-main-color h-100">
+        <Routes>
+          <Route path="/" element={<MovieList />} />
+          <Route path="/moviedetail/:id" element={<MovieDetail />} />
+        </Routes>
       </div>
     </div>
   );

@@ -4,23 +4,14 @@ import {
   searchType,
   setIsSearch,
   setPaginationStarted,
-} from "../../features/movies/movieSlice";
+} from "../../features/movies/movieListSlice";
 import ReactPaginate from "react-paginate";
 import { useDispatch, useSelector } from "react-redux";
 
 const Pagination = () => {
   const { movies, name, type, paginationStarted, isSearch } = useSelector(
-    (state) => state.movies
+    (state) => state.movieList
   );
-
-  const [moviesState, setMoviesState] = useState(movies);
-  const [forceInitial, setForceInitial] = useState(movies);
-
-  useEffect(() => {
-    if (JSON.stringify(moviesState.Search) !== JSON.stringify(movies.Search)) {
-      setForceInitial(0);
-    }
-  }, [movies]);
 
   const pagination = useRef();
   const dispatch = useDispatch();
@@ -46,7 +37,6 @@ const Pagination = () => {
       <div className="d-flex col-12 table-responsive px-4 ">
         <ReactPaginate
           ref={pagination}
-          forcePage={forceInitial}
           pageCount={Math.ceil(movies.totalResults / 10)}
           pageRangeDisplayed={4}
           marginPagesDisplayed={1}

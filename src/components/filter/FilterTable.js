@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterValue } from "../../features/movies/movieSlice";
+import { setFilterValue } from "../../features/movies/movieListSlice";
 
 const FilterTable = () => {
   const { filterValue } = useSelector(
-    (state) => state.movies
+    (state) => state.movieList
   );
   const dispatch = useDispatch();
   const handleChange = (e) => {

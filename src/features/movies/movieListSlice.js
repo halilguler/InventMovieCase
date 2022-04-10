@@ -50,7 +50,7 @@ const initialState = {
   paginationStarted: 0,
 };
 
-export const moviesSlice = createSlice({
+export const movieListSlice = createSlice({
   name: "movies",
   initialState: initialState,
   reducers: {
@@ -99,7 +99,12 @@ export const moviesSlice = createSlice({
   },
 });
 
-export const { setName, setType, setFilterValue, setPaginationStarted,setIsSearch } =
-  moviesSlice.actions;
+export const {
+  setName,
+  setType,
+  setFilterValue,
+  setPaginationStarted,
+  setIsSearch,
+} = movieListSlice.actions;
 
-export default moviesSlice.reducer;
+export default movieListSlice.reducer;
