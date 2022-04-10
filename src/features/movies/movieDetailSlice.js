@@ -1,16 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const defaultHeaders = {
-  "Content-Type": "application/json",
-};
-
 export const fetchMovieDetail = createAsyncThunk(
   "movies/fetchMovieDetail",
-  async (params, { dispatch, rejectWithValue }) => {
+  async (params) => {
     const response = await axios.get(
-      `https://www.omdbapi.com/?apikey=70be74bb&i=${params.id}&plot=full`,
-      { headers: { ...defaultHeaders } }
+      `https://www.omdbapi.com/?apikey=70be74bb&i=${params.id}&plot=full`
     );
     return response.data;
   }
@@ -22,7 +17,7 @@ const initialState = {
 };
 
 export const movieDetail = createSlice({
-  name: "movies",
+  name: "moviesDetail",
   initialState: initialState,
   reducers: {},
 

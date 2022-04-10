@@ -1,50 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   fetchMovies,
   searchType,
   searchYear,
-  setFilterValue,
-  setIsSearch,
   setName,
-  setPaginationStarted,
   setType,
 } from "../../features/movies/movieListSlice";
+
+//mockData
+
+import { mockYear } from "./mockYear";
+
+//3rd party package
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+
+// style
 import "./style.scss";
+import { movieFilterOptionEnum } from "../../enums/MovieFilterOptionEnum";
 
-export const mockYear = [
-  { value: 2000, text: "2000" },
-  { value: 2001, text: "2001" },
-  { value: 2002, text: "2002" },
-  { value: 2003, text: "2003" },
-  { value: 2004, text: "2004" },
-  { value: 2005, text: "2005" },
-  { value: 2006, text: "2006" },
-  { value: 2007, text: "2007" },
-  { value: 2008, text: "2008" },
-  { value: 2009, text: "2009" },
-  { value: 2010, text: "2010" },
-  { value: 2011, text: "2011" },
-  { value: 2012, text: "2012" },
-  { value: 2013, text: "2013" },
-  { value: 2014, text: "2014" },
-  { value: 2015, text: "2015" },
-  { value: 2016, text: "2016" },
-  { value: 2017, text: "2017" },
-  { value: 2018, text: "2018" },
-  { value: 2019, text: "2019" },
-  { value: 2020, text: "2020" },
-  { value: 2021, text: "2021" },
-  { value: 2022, text: "2022" },
-];
-
-const Search = () => {
+const Search = ({ clearPage }) => {
   const [filterSelect, setFilterSelect] = useState(0);
   const [year, setYear] = useState(null);
   const [moviesSearch, setMoviesSearch] = useState("");
@@ -73,17 +53,26 @@ const Search = () => {
 
   const handleSubmit = (e) => {
     if (filterSelect === 1) {
-      setSearchTypeParams({ name: moviesSearch, type: "movie" });
+      setSearchTypeParams({
+        name: moviesSearch,
+        type: movieFilterOptionEnum.JUST_MOVIE,
+      });
       dispatch(setName(moviesSearch));
-      dispatch(setType("movie"));
+      dispatch(setType(movieFilterOptionEnum.JUST_MOVIE));
     } else if (filterSelect === 2) {
-      setSearchTypeParams({ name: seriesSearch, type: "series" });
+      setSearchTypeParams({
+        name: seriesSearch,
+        type: movieFilterOptionEnum.JUST_SERIES,
+      });
       dispatch(setName(seriesSearch));
-      dispatch(setType("series"));
+      dispatch(setType(movieFilterOptionEnum.JUST_SERIES));
     } else if (filterSelect === 3) {
-      setSearchTypeParams({ name: seriesEpisodeSearch, type: "episode" });
+      setSearchTypeParams({
+        name: seriesEpisodeSearch,
+        type: movieFilterOptionEnum.JUST_SERIES_SEASON,
+      });
       dispatch(setName(seriesEpisodeSearch));
-      dispatch(setType("episode"));
+      dispatch(setType(movieFilterOptionEnum.JUST_SERIES_SEASON));
     } else if (filterSelect === 4) {
       setSearchYearParams({ year: year });
     }
@@ -106,7 +95,7 @@ const Search = () => {
       case 1:
         return (
           <TextField
-            id="outlined-basic"
+            id="outlined-basic-1"
             label="Filme Göre"
             value={moviesSearch}
             onChange={(e) => {
@@ -118,7 +107,7 @@ const Search = () => {
       case 2:
         return (
           <TextField
-            id="outlined-basic"
+            id="outlined-basic-2"
             label="Diziye Göre"
             value={seriesSearch}
             onChange={(e) => {
@@ -130,7 +119,7 @@ const Search = () => {
       case 3:
         return (
           <TextField
-            id="outlined-basic"
+            id="outlined-basic-3"
             label="Dizi Bölümüne Göre"
             value={seriesEpisodeSearch}
             onChange={(e) => {
@@ -146,7 +135,7 @@ const Search = () => {
               <InputLabel className="">Yıl</InputLabel>
               <Select
                 labelId="demo-simple-select-helper-label"
-                id="demo-simple-select-helper"
+                id="demo-simple-select-helper-1"
                 value={year}
                 label="Yıl"
                 onChange={(e) => setYear(e.target.value)}
@@ -198,6 +187,7 @@ const Search = () => {
                 variant="contained"
                 onClick={() => {
                   handleSubmit();
+                  clearPage();
                 }}
               >
                 Ara
@@ -207,9 +197,9 @@ const Search = () => {
                 variant="contained"
                 onClick={() => {
                   clearState();
+                  clearPage();
                   dispatch(setName("pokemon"));
                   dispatch(fetchMovies({ pageIndex: 1 }));
-                  dispatch(setPaginationStarted(0));
                 }}
               >
                 Sıfırla

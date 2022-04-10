@@ -1,14 +1,21 @@
-import { Box } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import CircularProgress from "@mui/material/CircularProgress";
-import "./style.scss";
-import { fetchMovies } from "../../features/movies/movieListSlice";
-import Pagination from "../pagination/Pagination";
 import { Link } from "react-router-dom";
 
-const Table = () => {
+import { fetchMovies } from "../../features/movies/movieListSlice";
+
+//components
+import Pagination from "../pagination/Pagination";
+
+//3rd party package
+import { Box } from "@mui/system";
+import CircularProgress from "@mui/material/CircularProgress";
+
+//3rd party package
+import "./style.scss";
+import { movieTypeStringReplace } from "../../utils/utils";
+
+const Table = ({ pageNumber, setPageNumber }) => {
   const { movies, loading, filterValue } = useSelector(
     (state) => state.movieList
   );
@@ -41,11 +48,12 @@ const Table = () => {
                 <tr>
                   <th scope="col">IMDb ID</th>
                   <th scope="col">Filmin Adı</th>
+                  <th scope="col">Tür</th>
                   <th scope="col">Yayın Tarihi</th>
                 </tr>
               </thead>
               <tbody>
-                {movies?.Search ? (
+                {movies && movies.Search ? (
                   movies?.Search.filter((item) =>
                     item.Title.toLowerCase().includes(filterValue)
                   )?.map((item, i) => (
@@ -56,13 +64,19 @@ const Table = () => {
                           {item.Title}
                         </Link>
                       </td>
+                      <td>{movieTypeStringReplace(item.Type)}</td>
                       <td>{item.Year}</td>
                     </tr>
                   ))
                 ) : (
                   <tr key={movies.imdbID}>
                     <td>{movies.imdbID}</td>
-                    <td>{movies.Title}</td>
+                    <td style={{ cursor: "pointer" }}>
+                        <Link to={`moviedetail/${movies.imdbID}`}>
+                          {movies.Title}
+                        </Link>
+                      </td>
+                    <td>{movieTypeStringReplace(movies.Type)}</td>
                     <td>{movies.Year}</td>
                   </tr>
                 )}
@@ -71,7 +85,7 @@ const Table = () => {
           </div>
         ) : null}
         <div className="d-flex position-absolute bottom-0">
-          <Pagination />
+          <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} />
         </div>
       </div>
     </>

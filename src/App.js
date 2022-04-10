@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Outlet, Route, Routes } from "react-router-dom";
-import "./App.scss";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+
+//components
 import Header from "./components/header/Header";
 import MovieDetail from "./pages/MovieDetail/MovieDetail";
 import MovieList from "./pages/MovieList/MovieList";
+
+//style
+import "./App.scss";
 
 function App() {
   return (

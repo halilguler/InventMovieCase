@@ -1,18 +1,13 @@
-import { createAsyncThunk, current, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const defaultHeaders = {
-  "Content-Type": "application/json",
-};
 
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
-  async (params, { dispatch, rejectWithValue }) => {
+  async (params) => {
     const response = await axios.get(
       `https://www.omdbapi.com/?apikey=70be74bb&s=${
         params.name ? params.name : "pokemon"
-      }&page=${params.pageIndex}`,
-      { headers: { ...defaultHeaders } }
+      }&page=${params.pageIndex}`
     );
     return response.data;
   }
@@ -20,10 +15,9 @@ export const fetchMovies = createAsyncThunk(
 
 export const searchType = createAsyncThunk(
   "movies/searchMovies",
-  async (params, { dispatch, rejectWithValue }) => {
+  async (params) => {
     const response = await axios.get(
-      `https://www.omdbapi.com/?apikey=70be74bb&s=${params.name}&type=${params.type}&page=${params.pageIndex}`,
-      { headers: { ...defaultHeaders } }
+      `https://www.omdbapi.com/?apikey=70be74bb&s=${params.name}&type=${params.type}&page=${params.pageIndex}`
     );
     return response.data;
   }
@@ -31,10 +25,9 @@ export const searchType = createAsyncThunk(
 
 export const searchYear = createAsyncThunk(
   "movies/searchYear",
-  async (params, { dispatch, rejectWithValue }) => {
+  async (params) => {
     const response = await axios.get(
-      `https://www.omdbapi.com/?apikey=70be74bb&y=${params.year}&page=${params.pageIndex}`,
-      { headers: { ...defaultHeaders } }
+      `https://www.omdbapi.com/?apikey=70be74bb&y=${params.year}&page=${params.pageIndex}`
     );
     return response.data;
   }
@@ -46,12 +39,10 @@ const initialState = {
   type: "",
   loading: "idle",
   filterValue: "",
-  isSearch: false,
-  paginationStarted: 0,
 };
 
 export const movieListSlice = createSlice({
-  name: "movies",
+  name: "movieList",
   initialState: initialState,
   reducers: {
     setName: (state, action) => {
@@ -62,12 +53,6 @@ export const movieListSlice = createSlice({
     },
     setFilterValue: (state, action) => {
       state.filterValue = action.payload;
-    },
-    setIsSearch: (state, action) => {
-      state.isSearch = action.payload;
-    },
-    setPaginationStarted: (state, action) => {
-      state.paginationStarted = action.payload;
     },
   },
 
@@ -99,12 +84,6 @@ export const movieListSlice = createSlice({
   },
 });
 
-export const {
-  setName,
-  setType,
-  setFilterValue,
-  setPaginationStarted,
-  setIsSearch,
-} = movieListSlice.actions;
+export const { setName, setType, setFilterValue } = movieListSlice.actions;
 
 export default movieListSlice.reducer;

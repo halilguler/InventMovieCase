@@ -1,14 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+
+//Redux
+
+import { fetchMovieDetail } from "../../features/movies/movieDetailSlice";
+
+//3rd party package
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/system";
 
-import { fetchMovieDetail } from "../../features/movies/movieDetailSlice";
+// style
 import "./style.scss";
 
 const MovieDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { detail, loading } = useSelector((state) => state.movieDetail);
   const dispatch = useDispatch();
 
@@ -18,6 +25,15 @@ const MovieDetail = () => {
 
   return (
     <>
+      <div>
+        <button className="btn btn-secondary ms-3 mt-3"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Geri
+        </button>
+      </div>
       {loading === "pending" ? (
         <div className="d-flex col-12 justify-content-center">
           <Box
@@ -52,45 +68,6 @@ const MovieDetail = () => {
             className="blur_back bright_back"
           ></div>
         </div>
-        // <div className="d-flex col-12 justify-content-center align-content-center h-100">
-        //   <div className="d-flex col-10 m-4 p-4 detail-shadow border-radius-1">
-        //     <div className="d-flex col-8 flex-column">
-        //       <div className="d-flex col-12 flex-column justify-content-center">
-        //           <span className="d-flex justify-content-center">Başlık</span>
-        //           <span className="d-flex justify-content-center">{detail.Title}</span>
-        //       </div>
-        //       <div className="d-flex">
-        //         <span className="col-3">Oyuncular</span>
-        //         <span className="col-1">:</span>
-        //         <span className="col-4">{detail.Actors}</span>
-        //       </div>
-        //       <div className="d-flex">
-        //         <span className="col-3">IMDB Puanı</span>
-        //         <span className="col-1">:</span>
-        //         <span className="col-4">{detail.imdbRating}</span>
-        //       </div>
-        //       <div className="d-flex">
-        //         <span className="col-3">Süresi</span>
-        //         <span className="col-1">:</span>
-        //         <span className="col-4">{detail.Runtime}</span>
-        //       </div>
-        //       <div className="d-flex">
-        //         <span className="col-3">Tür</span>
-        //         <span className="col-1">:</span>
-        //         <span className="col-4">{detail.Type}</span>
-        //       </div>
-        //       <div className="d-flex">
-        //         <span className="col-3">Türü</span>
-        //         <span className="col-1">:</span>
-        //         <span className="col-4">{detail.Genre}</span>
-        //       </div>
-        //     </div>
-
-        //     <div className="d-flex col-4">
-        //       <img src={detail.Poster} />
-        //     </div>
-        //   </div>
-        // </div>
       )}
     </>
   );

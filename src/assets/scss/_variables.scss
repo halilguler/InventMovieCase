@@ -2,7 +2,9 @@ $page-title-color: #57a99c;
 $header-color: #ef7a37;
 $main-color: #eaecef;
 $white: #ffffff;
+
 $border-radius-1:1rem;
+
 $font-color: (
   white: $white,
 );
@@ -38,13 +40,3 @@ $bg-color: (
 }
 
 /* Background color ]*/
-
-/* [ Border Color */
-
-$border-color: ();
-
-@each $name, $color in $border-color {
-  .border-#{$name} {
-    border: 1px solid $color !important;
-  }
-}

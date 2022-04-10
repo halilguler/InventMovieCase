@@ -1,29 +1,27 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  fetchMovies,
-  searchType,
-  setIsSearch,
-  setPaginationStarted,
-} from "../../features/movies/movieListSlice";
-import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef } from "react";
 
-const Pagination = () => {
-  const { movies, name, type, paginationStarted, isSearch } = useSelector(
-    (state) => state.movieList
-  );
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies, searchType } from "../../features/movies/movieListSlice";
+
+//3rd part package
+import ReactPaginate from "react-paginate";
+import { movieFilterOptionEnum } from "../../enums/MovieFilterOptionEnum";
+
+const Pagination = ({ pageNumber, setPageNumber }) => {
+  const { movies, name, type } = useSelector((state) => state.movieList);
 
   const pagination = useRef();
   const dispatch = useDispatch();
 
   const setPage = ({ selected }) => {
-    if (type === "movie") {
+    if (type === movieFilterOptionEnum.JUST_MOVIE) {
       dispatch(searchType({ name: name, type: type, pageIndex: selected + 1 }));
       pagination.current.setState({ selected });
-    } else if (type === "series") {
+    } else if (type === movieFilterOptionEnum.JUST_SERIES) {
       dispatch(searchType({ name: name, type: type, pageIndex: selected + 1 }));
       pagination.current.setState({ selected });
-    } else if (type === "episode") {
+    } else if (type === movieFilterOptionEnum.JUST_SERIES_SEASON) {
       dispatch(searchType({ name: name, type: type, pageIndex: selected + 1 }));
       pagination.current.setState({ selected });
     } else {
@@ -38,9 +36,13 @@ const Pagination = () => {
         <ReactPaginate
           ref={pagination}
           pageCount={Math.ceil(movies.totalResults / 10)}
+          forcePage={pageNumber}
           pageRangeDisplayed={4}
           marginPagesDisplayed={1}
-          onPageChange={(selected) => setPage(selected)}
+          onPageChange={(selected) => {
+            setPageNumber(selected.selected);
+            setPage(selected);
+          }}
           containerClassName="pagination"
           activeClassName="active"
           pageLinkClassName="page-link"
